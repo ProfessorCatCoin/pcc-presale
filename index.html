@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor Cat Coin Presale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .wallet-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .wallet-connected {
+            background: #10b981;
+            padding: 15px 30px;
+            border-radius: 12px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .presale-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .card-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #667eea;
+        }
+        
+        .input-group {
+            margin-bottom: 30px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #a5b4fc;
+        }
+        
+        .amount-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+        }
+        
+        .buy-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, #ec4899, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .buy-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        
+        .buy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-title {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .presale-card {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🐱 Professor Cat Coin</div>
+            <div class="tagline">The next generation of meme coins with real utility</div>
+            <button class="wallet-btn" id="connectWallet">🔗 Connect Phantom Wallet</button>
+            <div id="walletInfo" style="display: none;" class="wallet-connected"></div>
+        </header>
+        
+        <main>
+            <div class="presale-card">
+                <h2 class="card-title">🚀 PCC Token Presale</h2>
+                
+                <div class="input-group">
+                    <label class="input-label">Amount of PCC to buy</label>
+                    <input type="number" id="amountInput" class="amount-input" placeholder="1000" min="1" value="1000">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">You will pay:</label>
+                    <div style="font-size: 2rem; text-align: center; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <span id="solunaAmount">10</span> SOLUNA
+                    </div>
+                </div>
+                
+                <button class="buy-btn" id="buyButton" disabled>
+                    🚀 Buy <span id="buyAmount">1000</span> PCC Tokens
+                </button>
+                
+                <div style="text-align: center; margin-top: 20px; color: #a5b4fc;">
+                    Price: 1 SOLUNA = 100 PCC
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-title">Total Raised</div>
+                    <div class="stat-value">$0 / $1M</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">Tokens Sold</div>
+                    <div class="stat-value">0 / 10M</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">Presale Ends In</div>
+                    <div class="stat-value">30 Days</div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2024 Professor Cat Coin. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                <strong>Note:</strong> This is a frontend demo. Add smart contract integration by:
+                <br>1. Deploying Anchor program 2. Adding PROGRAM_ID 3. Connecting buy function
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Update amounts in real-time
+        const amountInput = document.getElementById('amountInput');
+        const solunaAmount = document.getElementById('solunaAmount');
+        const buyAmount = document.getElementById('buyAmount');
+        const buyButton = document.getElementById('buyButton');
+        const connectWalletBtn = document.getElementById('connectWallet');
+        const walletInfo = document.getElementById('walletInfo');
+        
+        let isWalletConnected = false;
+        
+        // Calculate SOLUNA amount
+        function updateAmounts() {
+            const pccAmount = parseInt(amountInput.value) || 0;
+            const solunaNeeded = pccAmount / 100; // 1 SOLUNA = 100 PCC
+            
+            solunaAmount.textContent = solunaNeeded.toFixed(2);
+            buyAmount.textContent = pccAmount.toLocaleString();
+            
+            // Enable button if amount > 0 and wallet connected
+            buyButton.disabled = pccAmount <= 0 || !isWalletConnected;
+            buyButton.textContent = isWalletConnected ? 
+                `🚀 Buy ${pccAmount.toLocaleString()} PCC Tokens` : 
+                'Connect Wallet First';
+        }
+        
+        // Connect to Phantom Wallet
+        async function connectWallet() {
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const response = await window.solana.connect();
+                    const publicKey = response.publicKey.toString();
+                    
+                    isWalletConnected = true;
+                    connectWalletBtn.style.display = 'none';
+                    walletInfo.style.display = 'inline-block';
+                    walletInfo.textContent = `✅ Connected: ${publicKey.slice(0, 4)}...${publicKey.slice(-4)}`;
+                    
+                    updateAmounts();
+                    alert('✅ Wallet connected successfully!');
+                    
+                } catch (err) {
+                    alert('❌ Failed to connect wallet. Please try again.');
+                }
+            } else {
+                alert('❌ Phantom wallet not found. Please install Phantom wallet from https://phantom.app/');
+            }
+        }
+        
+        // Buy PCC Tokens
+        async function buyPCC() {
+            if (!isWalletConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            const amount = parseInt(amountInput.value);
+            if (amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            // Show loading
+            buyButton.disabled = true;
+            buyButton.textContent = '🔄 Processing...';
+            
+            // Simulate transaction
+            setTimeout(() => {
+                alert(`🎉 Success! You bought ${amount.toLocaleString()} PCC tokens!\n\nTo make real transactions:\n1. Deploy Anchor program\n2. Add PROGRAM_ID\n3. Connect to smart contract`);
+                
+                buyButton.disabled = false;
+                buyButton.textContent = `🚀 Buy ${amount.toLocaleString()} PCC Tokens`;
+            }, 2000);
+        }
+        
+        // Event listeners
+        amountInput.addEventListener('input', updateAmounts);
+        connectWalletBtn.addEventListener('click', connectWallet);
+        buyButton.addEventListener('click', buyPCC);
+        
+        // Initialize
+        updateAmounts();
+    </script>
+</body>
+</html>
